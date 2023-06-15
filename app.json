@@ -1,7 +1,7 @@
 {
-  "name": "DeepL API App for Slack",
+  "name": "Orbis - Next version of DeepL API App for Slack",
   "description": "Slack app for DeepL Translate API users",
-  "repository": "https://github.com/seratch/deepl-for-slack",
+  "repository": "https://github.com/corp-momenti/Orbis",
   "keywords": [
     "Slack",
     "Slack API",

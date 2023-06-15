@@ -41,7 +41,7 @@ Refer to the following resources for more details:
 
 ### Create your Slack App
 
-Use the [App Manifest file](https://github.com/seratch/deepl-for-slack/blob/master/app-manifest.yml) to configure a new app!
+Use the [App Manifest file](https://github.com/corp-momenti/Orbis/blob/master/app-manifest.yml) to configure a new app!
 
 <img width="400" src="https://user-images.githubusercontent.com/19658/121115984-cef47c00-c850-11eb-9d7e-dbd80407ac9a.png">
 <img width="400" src="https://user-images.githubusercontent.com/19658/121115976-cc922200-c850-11eb-8e23-1054c48b54d0.png">
@@ -60,7 +60,7 @@ Use the [App Manifest file](https://github.com/seratch/deepl-for-slack/blob/mast
 
 ### Deploy to Heroku
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/seratch/deepl-for-slack/tree/master)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/corp-momenti/Orbis/tree/master)
 
 * Confirm [your billing settings](https://dashboard.heroku.com/account/billing)
 * Deploy this app with the following env variables

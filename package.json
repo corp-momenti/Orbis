@@ -1,7 +1,7 @@
 {
-  "name": "deepl-for-slack",
+  "name": "orbis",
   "version": "1.0.0",
-  "description": "DeepL integration for Slack",
+  "description": "Next version of DeepL integration for Slack",
   "main": "lib/index.js",
   "scripts": {
     "start": "npm run build && node lib/index.js",
@@ -10,7 +10,7 @@
     "build": "tsc -p .",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec \"ts-node\" src/index.ts"
   },
-  "author": "Kazuhiro Sera (@seratch)",
+  "author": "Chris Ohk (@utilforever), Kazuhiro Sera (@seratch)",
   "license": "MIT",
   "dependencies": {
     "@slack/bolt": "^3.12.2",
