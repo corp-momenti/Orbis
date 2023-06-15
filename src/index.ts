@@ -67,11 +67,9 @@ app.view("new-runner", async ({ body, ack }) => {
 });
 
 import { MessageEvent } from "./types/message";
-import { nameToLang } from "./languages";
 
 app.event("message", async ({ body, client }) => {
   const event = body.event as MessageEvent;
-
   const channelId = event["channel"];
   const messageTs = event["ts"];
   if (!channelId || !messageTs) {
@@ -86,28 +84,21 @@ app.event("message", async ({ body, client }) => {
   }
 
   const lang = nameToLang[potentialLanguages[0][0]];
-
-  const replies = await reacjilator.repliesInThread(
-    client,
-    channelId,
-    messageTs
-  );
-  if (replies.messages && replies.messages.length > 0) {
-    const message = replies.messages[0];
-    if (message.text) {
-      const translatedText = await deepL.translate(message.text, lang);
-      if (translatedText == null) {
-        return;
-      }
-      if (reacjilator.isAlreadyPosted(replies, translatedText)) {
-        return;
-      }
-      await reacjilator.sayInThread(client, channelId, translatedText, message);
-    }
+  const translatedText = await deepL.translate(event.text, lang);
+  if (translatedText == null) {
+    return;
   }
+
+  await client.chat.postMessage({
+    channel: channelId,
+    text: translatedText,
+    parse: "none",
+    thread_ts: messageTs
+  });
 });
 
 import { ReactionAddedEvent } from "./types/reaction-added";
+import { nameToLang } from "./languages";
 
 app.event("reaction_added", async ({ body, client }) => {
   const event = body.event as ReactionAddedEvent;
