@@ -9,6 +9,7 @@ import { DeepLApi } from "./deepl";
 import * as runner from "./runnner";
 import * as reacjilator from "./reacjilator";
 
+const LanguageDetect = require('languagedetect');
 const logLevel = (process.env.SLACK_LOG_LEVEL as LogLevel) || LogLevel.INFO;
 const logger = new ConsoleLogger();
 logger.setLevel(logLevel);
@@ -65,9 +66,46 @@ app.view("new-runner", async ({ body, ack }) => {
   });
 });
 
-// -----------------------------
-// reacjilator
-// -----------------------------
+import { MessageEvent } from "./types/message";
+import { nameToLang } from "./languages";
+
+app.event("message", async ({ body, client }) => {
+  const event = body.event as MessageEvent;
+
+  const channelId = event["channel"];
+  const messageTs = event["ts"];
+  if (!channelId || !messageTs) {
+    return;
+  }
+
+  var languageDetector = new LanguageDetect();
+  var potentialLanguages = languageDetector.detect(event.text, 2);
+  
+  if (potentialLanguages.length === 0) {
+    return;
+  }
+
+  const lang = nameToLang[potentialLanguages[0][0]];
+
+  const replies = await reacjilator.repliesInThread(
+    client,
+    channelId,
+    messageTs
+  );
+  if (replies.messages && replies.messages.length > 0) {
+    const message = replies.messages[0];
+    if (message.text) {
+      const translatedText = await deepL.translate(message.text, lang);
+      if (translatedText == null) {
+        return;
+      }
+      if (reacjilator.isAlreadyPosted(replies, translatedText)) {
+        return;
+      }
+      await reacjilator.sayInThread(client, channelId, translatedText, message);
+    }
+  }
+});
 
 import { ReactionAddedEvent } from "./types/reaction-added";
 

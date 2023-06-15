@@ -58,6 +58,11 @@ export const langToName: any = {
   uk: "Ukrainian",
 };
 
+export const nameToLang: any = {
+  "english": "en",
+  "korean": "ko",
+};
+
 export const reactionToLang: any = {
   ac: "en",
   ag: "en",
