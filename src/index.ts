@@ -5,11 +5,11 @@ import { App } from "@slack/bolt";
 import { ConsoleLogger, LogLevel } from "@slack/logger";
 import * as middleware from "./custom-middleware";
 
+import { franc, francAll } from "franc";
 import { DeepLApi } from "./deepl";
 import * as runner from "./runnner";
 import * as reacjilator from "./reacjilator";
 
-const LanguageDetect = require('languagedetect');
 const logLevel = (process.env.SLACK_LOG_LEVEL as LogLevel) || LogLevel.INFO;
 const logger = new ConsoleLogger();
 logger.setLevel(logLevel);
@@ -77,15 +77,11 @@ app.event("message", async ({ body, client }) => {
     return;
   }
 
-  var languageDetector = new LanguageDetect();
-  var potentialLanguages = languageDetector.detect(event.text);
-  
-  if (potentialLanguages.length === 0) {
-    return;
-  }
+  var sourceLang = franc(event.text);
+  console.log("sourceLang: " + sourceLang);
 
-  const lang = sourceLangToTargetLang[potentialLanguages[0][0]];
-  const translatedText = await deepL.translate(event.text, lang);
+  const targetLang = sourceLangToTargetLang[sourceLang];
+  const translatedText = await deepL.translate(event.text, targetLang);
   if (translatedText == null) {
     return;
   }
@@ -94,7 +90,7 @@ app.event("message", async ({ body, client }) => {
     channel: channelId,
     text: translatedText,
     parse: "none",
-    thread_ts: messageTs
+    thread_ts: messageTs,
   });
 });
 
