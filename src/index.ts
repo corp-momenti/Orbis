@@ -79,7 +79,7 @@ app.event("message", async ({ body, client }) => {
     return;
   }
 
-  var sourceLang = franc(event.text);
+  var sourceLang = franc(event.text, {minLength: 2, only: ['eng', 'kor']});
   console.log("sourceLang: " + sourceLang);
 
   const targetLang = sourceLangToTargetLang[sourceLang];
