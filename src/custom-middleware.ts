@@ -1,4 +1,4 @@
-import { App } from "@slack/bolt";
+import { type App } from "@slack/bolt";
 
 export function enableAll(app: App) {
   if (process.env.SLACK_REQUEST_LOG_ENABLED === "1") {

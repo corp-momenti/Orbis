@@ -1,6 +1,6 @@
 import { PlainTextOption, View } from "@slack/types";
 import { WebClient } from "@slack/web-api";
-import { langToReaction, langToName } from "./languages";
+import { langToReaction, langToName } from "./languages.js";
 
 const orderedLangNames = (
   process.env.DEEPL_RUNNER_LANGUAGES ||

@@ -1,14 +1,16 @@
-import { loadEnv } from "./dotenv";
+import { loadEnv } from "./dotenv.js";
 loadEnv();
 
-import { App } from "@slack/bolt";
+import pkg from "@slack/bolt";
 import { ConsoleLogger, LogLevel } from "@slack/logger";
-import * as middleware from "./custom-middleware";
+import * as middleware from "./custom-middleware.js";
 
 import { franc, francAll } from "franc";
-import { DeepLApi } from "./deepl";
-import * as runner from "./runnner";
-import * as reacjilator from "./reacjilator";
+import { DeepLApi } from "./deepl.js";
+import * as runner from "./runnner.js";
+import * as reacjilator from "./reacjilator.js";
+
+const { App } = pkg;
 
 const logLevel = (process.env.SLACK_LOG_LEVEL as LogLevel) || LogLevel.INFO;
 const logger = new ConsoleLogger();
@@ -66,8 +68,8 @@ app.view("new-runner", async ({ body, ack }) => {
   });
 });
 
-import { MessageEvent } from "./types/message";
-import { sourceLangToTargetLang } from "./languages";
+import { MessageEvent } from "./types/message.js";
+import { sourceLangToTargetLang } from "./languages.js";
 
 app.event("message", async ({ body, client }) => {
   const event = body.event as MessageEvent;
@@ -94,7 +96,7 @@ app.event("message", async ({ body, client }) => {
   });
 });
 
-import { ReactionAddedEvent } from "./types/reaction-added";
+import { ReactionAddedEvent } from "./types/reaction-added.js";
 
 app.event("reaction_added", async ({ body, client }) => {
   const event = body.event as ReactionAddedEvent;

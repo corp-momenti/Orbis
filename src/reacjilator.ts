@@ -1,6 +1,6 @@
-import { ConversationsRepliesResponse, Message } from './types/conversations-replies';
-import { ReactionAddedEvent } from './types/reaction-added';
-import { reactionToLang } from './languages';
+import { ConversationsRepliesResponse, Message } from './types/conversations-replies.js';
+import { ReactionAddedEvent } from './types/reaction-added.js';
+import { reactionToLang } from './languages.js';
 import { WebClient } from '@slack/web-api';
 
 export function lang(event: ReactionAddedEvent): string | null {
