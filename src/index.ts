@@ -67,6 +67,7 @@ app.view("new-runner", async ({ body, ack }) => {
 });
 
 import { MessageEvent } from "./types/message";
+import { sourceLangToTargetLang } from "./languages";
 
 app.event("message", async ({ body, client }) => {
   const event = body.event as MessageEvent;
@@ -77,13 +78,13 @@ app.event("message", async ({ body, client }) => {
   }
 
   var languageDetector = new LanguageDetect();
-  var potentialLanguages = languageDetector.detect(event.text, 2);
+  var potentialLanguages = languageDetector.detect(event.text);
   
   if (potentialLanguages.length === 0) {
     return;
   }
 
-  const lang = nameToLang[potentialLanguages[0][0]];
+  const lang = sourceLangToTargetLang[potentialLanguages[0][0]];
   const translatedText = await deepL.translate(event.text, lang);
   if (translatedText == null) {
     return;
@@ -98,7 +99,6 @@ app.event("message", async ({ body, client }) => {
 });
 
 import { ReactionAddedEvent } from "./types/reaction-added";
-import { nameToLang } from "./languages";
 
 app.event("reaction_added", async ({ body, client }) => {
   const event = body.event as ReactionAddedEvent;

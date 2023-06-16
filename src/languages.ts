@@ -58,7 +58,7 @@ export const langToName: any = {
   uk: "Ukrainian",
 };
 
-export const nameToLang: any = {
+export const sourceLangToTargetLang: any = {
   "english": "ko",
   "korean": "en",
 };
