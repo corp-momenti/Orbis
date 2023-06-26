@@ -73,13 +73,14 @@ import { sourceLangToTargetLang } from "./languages.js";
 
 app.event("message", async ({ body, client }) => {
   const event = body.event as MessageEvent;
+  const userId = event["user"];
   const channelId = event["channel"];
   const messageTs = event["ts"];
   if (!channelId || !messageTs) {
     return;
   }
 
-  var sourceLang = franc(event.text, {minLength: 2, only: ['eng', 'kor']});
+  var sourceLang = franc(event.text, { minLength: 2, only: ["eng", "kor"] });
   console.log("sourceLang: " + sourceLang);
 
   const targetLang = sourceLangToTargetLang[sourceLang];
@@ -88,9 +89,12 @@ app.event("message", async ({ body, client }) => {
     return;
   }
 
+  const user = await client.users.info({ user: userId });
+  const realName = user.user?.real_name;
+  
   await client.chat.postMessage({
     channel: channelId,
-    text: translatedText,
+    text: realName + ": " + translatedText,
     parse: "none",
     thread_ts: messageTs,
   });
