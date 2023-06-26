@@ -23,6 +23,7 @@ oauth_config:
     bot:
       - commands
       - channels:history
+      - users:read
       - chat:write
       - groups:history
       - reactions:read
